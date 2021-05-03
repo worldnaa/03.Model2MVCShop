@@ -1,12 +1,8 @@
-<%@ page import="com.model2.mvc.service.domain.*" %>
 <%@ page contentType="text/html; charset=EUC-KR" %>
 
-<%
-	System.out.println("<<<<< getPurchase.jsp 시작 >>>>>");
-	
-	Purchase vo = (Purchase)request.getAttribute("purchase");
-	System.out.println("받은 purchase : " + vo);
-%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+${ System.out.println("<<<<< getPurchase.jsp 시작 >>>>>") }
 
 <html>
 <head>
@@ -50,7 +46,7 @@
 			<table width="100%" border="0" cellspacing="0" cellpadding="0">
 				<tr>
 					<td width="105">
-					<%= vo.getPurchaseProd().getProdNo() %></td>
+					${ purchase.purchaseProd.prodNo }</td>
 					<td></td>
 				</tr>
 			</table>
@@ -64,7 +60,7 @@
 			구매자아이디 <img	src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle"/>
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01"><%= vo.getBuyer().getUserId() %></td>
+		<td class="ct_write01">${ purchase.buyer.userId }</td>
 	</tr>
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
@@ -74,11 +70,14 @@
 		<td width="104" class="ct_write">구매방법</td>
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
-		<% if(vo.getPaymentOption().trim().equals("1")) { %>
+		
+		<c:if test="${ purchase.paymentOption.trim().equals('1') }">
 			현금구매
-		<% }else if(vo.getPaymentOption().trim().equals("2")){ %>
+		</c:if>
+		<c:if test="${ purchase.paymentOption.trim().equals('2') }">
 			신용구매
-		<% } %>
+		</c:if>
+		
 		</td>
 	</tr>
 	<tr>
@@ -87,7 +86,7 @@
 	<tr>
 		<td width="104" class="ct_write">구매자이름</td>
 		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01"><%= vo.getReceiverName() %></td>
+		<td class="ct_write01">${ purchase.receiverName }</td>
 	</tr>
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
@@ -95,7 +94,7 @@
 	<tr>
 		<td width="104" class="ct_write">구매자연락처</td>
 		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01"><%= vo.getReceiverPhone() %></td>
+		<td class="ct_write01">${ purchase.receiverPhone }</td>
 	</tr>
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
@@ -103,7 +102,7 @@
 	<tr>
 		<td width="104" class="ct_write">구매자주소</td>
 		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01"><%= vo.getDivyAddr() %></td>
+		<td class="ct_write01">${ purchase.divyAddr }</td>
 	</tr>
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
@@ -111,7 +110,7 @@
 	<tr>
 		<td width="104" class="ct_write">구매요청사항</td>
 		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01"><%= vo.getDivyRequest() %></td>
+		<td class="ct_write01">${ purchase.divyRequest }</td>
 	</tr>
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
@@ -119,7 +118,7 @@
 	<tr>
 		<td width="104" class="ct_write">배송희망일</td>
 		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01"><%= vo.getDivyDate() %></td>
+		<td class="ct_write01">${ purchase.divyDate }</td>
 	</tr>
 
 	<tr>
@@ -129,7 +128,7 @@
 	<tr>
 		<td width="104" class="ct_write">주문일</td>
 		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01"><%= vo.getOrderDate() %></td>
+		<td class="ct_write01">${ purchase.orderDate }</td>
 	</tr>
 
 	<tr>
@@ -148,7 +147,7 @@
 						<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
 					</td>
 					<td background="/images/ct_btnbg02.gif" class="ct_btn01"	style="padding-top: 3px;">
-						<a href="/updatePurchaseView.do?tranNo=<%= vo.getTranNo() %>">수정</a>
+						<a href="/updatePurchaseView.do?tranNo=${ purchase.tranNo }">수정</a>
 					</td>
 					<td width="14" height="23">
 						<img src="/images/ct_btnbg03.gif" width="14" height="23"/>
@@ -171,4 +170,4 @@
 
 </body>
 </html>
-<% System.out.println("<<<<< getPurchase.jsp 종료 >>>>>"); %>
+${ System.out.println("<<<<< getPurchase.jsp 종료 >>>>>") }

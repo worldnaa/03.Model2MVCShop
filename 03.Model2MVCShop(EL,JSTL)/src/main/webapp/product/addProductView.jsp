@@ -1,6 +1,6 @@
 <%@ page contentType="text/html; charset=euc-kr" %>
 
-<% System.out.println("<<<<< addProductView.jsp 시작 >>>>>"); %>
+${ System.out.println("<<<<< addProductView.jsp 시작 >>>>>") }
 
 <html>
 <head>
@@ -8,8 +8,7 @@
 
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
 
-<script type="text/javascript" src="../javascript/calendar.js">
-</script>
+<script type="text/javascript" src="../javascript/calendar.js"></script>
 
 <script type="text/javascript">
 <!--
@@ -182,4 +181,4 @@ function resetData(){
 </form>
 </body>
 </html>
-<% System.out.println("<<<<< addProductView.jsp 종료 >>>>>"); %>
+${ System.out.println("<<<<< addProductView.jsp 종료 >>>>>") }

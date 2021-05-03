@@ -2,6 +2,7 @@ package com.model2.mvc.service.domain;
 
 import java.sql.Date;
 
+
 public class User {
 	
 	///Field
@@ -14,6 +15,12 @@ public class User {
 	private String addr;
 	private String email;
 	private Date regDate;
+	/////////////// EL 적용 위해 추가된 Field ///////////
+	private String phone1;
+	private String phone2;
+	private String phone3;
+
+	
 	
 	///Constructor
 	public User(){
@@ -55,6 +62,12 @@ public class User {
 	}
 	public void setPhone(String phone) {
 		this.phone = phone;
+		/////////////// EL 적용 위해 추가 ///////////
+		if(phone != null && phone.length() !=0 ){
+			phone1 = phone.split("-")[0];
+			phone2 = phone.split("-")[1];
+			phone3 = phone.split("-")[2];
+		}
 	}
 	public String getAddr() {
 		return addr;
@@ -74,10 +87,20 @@ public class User {
 	public void setRegDate(Date regDate) {
 		this.regDate = regDate;
 	}
+	/////////////// EL 적용 위해 추가된 getter Method ///////////
+	public String getPhone1() {
+		return phone1;
+	}
+	public String getPhone2() {
+		return phone2;
+	}
+	public String getPhone3() {
+		return phone3;
+	}
+
 	@Override
 	public String toString() {
-		return "User : [userId] "+userId+" [userName] "+userName+" [password] "+password+" [role] "+ role
+		return "UserVO : [userId] "+userId+" [userName] "+userName+" [password] "+password+" [role] "+ role
 			+" [ssn] "+ssn+" [phone] "+phone+" [email] "+email+" [regDate] "+regDate;
 	}
-	
-}//end of class
+}

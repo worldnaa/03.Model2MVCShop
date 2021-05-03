@@ -1,12 +1,8 @@
-<%@ page import="com.model2.mvc.service.domain.*" %>
 <%@ page contentType="text/html; charset=EUC-KR" %>
+
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
  
-<%
-	System.out.println("<<<<< updatePurchaseView.jsp 시작 >>>>>");
-	
-	Purchase vo = (Purchase)request.getAttribute("purchase");
-	System.out.println("받은 purchase : " + vo);
-%>   
+${ System.out.println("<<<<< updatePurchaseView.jsp 시작 >>>>>") }    
     
 <html>
 <head>
@@ -29,7 +25,7 @@
 
 <body bgcolor="#ffffff" text="#000000">
 
-<form name="updatePurchase" method="post"	action="/updatePurchase.do?tranNo=<%= vo.getTranNo() %>">
+<form name="updatePurchase" method="post"	action="/updatePurchase.do?tranNo=${ purchase.tranNo }">
 
 <table width="100%" height="37" border="0" cellpadding="0" cellspacing="0">
 	<tr>
@@ -57,8 +53,8 @@
 	<tr>
 		<td width="104" class="ct_write">구매자아이디</td>
 		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01"><%= vo.getBuyer().getUserId() %></td>
-		<input type="hidden" name="buyerId" value="<%= vo.getBuyer().getUserId() %>">
+		<td class="ct_write01">${ purchase.buyer.userId }</td>
+		<input type="hidden" name="buyerId" value="${ purchase.buyer.userId }">
 	</tr>
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
@@ -69,8 +65,11 @@
 		<td class="ct_write01">
 			<select 	name="paymentOption" 	class="ct_input_g" style="width: 100px; height: 19px" 
 							maxLength="20">
-				<option value="1" <%= vo.getPaymentOption().trim().equals("1") ? "selected" : "" %> >현금구매</option>
-				<option value="2" <%= vo.getPaymentOption().trim().equals("2") ? "selected" : "" %> >신용구매</option>
+				<option value="1" ${ purchase.paymentOption.trim().equals("1") ? "selected" : "" } >현금구매</option>
+				<option value="2" ${ purchase.paymentOption.trim().equals("2") ? "selected" : "" } >신용구매</option>			
+							
+				<%--<option value="1" <%= vo.getPaymentOption().trim().equals("1") ? "selected" : "" %> >현금구매</option>
+				    <option value="2" <%= vo.getPaymentOption().trim().equals("2") ? "selected" : "" %> >신용구매</option>--%>
 			</select>
 		</td>
 	</tr>
@@ -82,7 +81,7 @@
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
 			<input 	type="text" name="receiverName" 	class="ct_input_g" style="width: 100px; height: 19px" 
-							maxLength="20" value="<%= vo.getReceiverName() %>" />
+							maxLength="20" value="${ purchase.receiverName }" />
 		</td>
 	</tr>
 	<tr>
@@ -93,7 +92,7 @@
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
 			<input 	type="text" name="receiverPhone" class="ct_input_g" style="width: 100px; height: 19px" 
-							maxLength="20" value="<%= vo.getReceiverPhone() %>" />
+							maxLength="20" value="${ purchase.receiverPhone }" />
 		</td>
 	</tr>
 
@@ -105,7 +104,7 @@
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
 			<input 	type="text" name="receiverAddr" class="ct_input_g" style="width: 100px; height: 19px" 
-							maxLength="20" value="<%= vo.getDivyAddr() %>" />
+							maxLength="20" value="${ purchase.divyAddr }" />
 		</td>
 	</tr>
 	<tr>
@@ -116,7 +115,7 @@
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
 			<input 	type="text" name="receiverRequest" 	class="ct_input_g" style="width: 100px; height: 19px" 
-							maxLength="20" value="<%= vo.getDivyRequest() %>" />
+							maxLength="20" value="${ purchase.divyRequest }" />
 		</td>
 	</tr>
 	<tr>
@@ -127,7 +126,8 @@
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td width="200" class="ct_write01">
 			<input type="text" readonly="readonly" name="divyDate" class="ct_input_g" 
-						style="width: 100px; height: 19px" maxLength="20" value="<%= vo.getDivyDate().substring(0, 10).replaceAll("-", "") %>" />
+						style="width: 100px; height: 19px" maxLength="20" value="${ purchase.divyDate.substring(0, 10).replaceAll("-", "") }" />
+					<%--style="width: 100px; height: 19px" maxLength="20" value="<%= vo.getDivyDate().substring(0, 10).replaceAll("-", "") %>" />--%>
 				<img 	src="../images/ct_icon_date.gif" width="15" height="15"	
 							onclick="show_calendar('document.updatePurchase.divyDate', document.updatePurchase.divyDate.value)"/>
 		</td>
@@ -148,7 +148,7 @@
 				</td>
 				<td background="/images/ct_btnbg02.gif" class="ct_btn01"	style="padding-top: 3px;">
 					<a href="javascript:fncUpdatePurchase();">수정</a>
-					<!-- <input type="submit" value="수정"/> -->
+					<%-- <input type="submit" value="수정"/> --%>
 				</td>
 				<td width="14" height="23">
 					<img src="/images/ct_btnbg03.gif" width="14" height="23"/>
@@ -173,4 +173,4 @@
 
 </body>
 </html>
-<% System.out.println("<<<<< updatePurchaseView.jsp 종료 >>>>>"); %> 
+${ System.out.println("<<<<< updatePurchaseView.jsp 종료 >>>>>") }

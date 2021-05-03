@@ -1,32 +1,8 @@
-<%@page contentType="text/html; charset=EUC-KR"%>
+<%@ page contentType="text/html; charset=EUC-KR"%>
 
-<%@page import="java.util.List"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<%@page import="com.model2.mvc.service.domain.*"%>
-<%@page import="com.model2.mvc.common.Search"%>
-<%@page import="com.model2.mvc.common.Page"%>
-<%@page import="com.model2.mvc.common.util.CommonUtil"%>
-
-<%
-	System.out.println("<<<<< listSale.jsp 시작 >>>>>");
-
-	List<Product> list = (List<Product>)request.getAttribute("list");
-	System.out.println("받은 list : " + list);
-	
-	Search search = (Search)request.getAttribute("search");
-	System.out.println("받은 search : " + search);
-	
-	Page resultPage = (Page)request.getAttribute("resultPage");
-	System.out.println("받은 resultPage : " + resultPage);
-	
-	//==> null 을 ""(nullString)으로 변경
-	String searchCondition = CommonUtil.null2str(search.getSearchCondition());
-	String searchKeyword = CommonUtil.null2str(search.getSearchKeyword());
-		
-	System.out.println("searchCondition은? " + searchCondition);
-	System.out.println("searchKeyword는? " + searchKeyword);
-%>
-
+${ System.out.println("<<<<< listSale.jsp 시작 >>>>>") }
 
 <html>
 <head>
@@ -36,7 +12,7 @@
 
 <script type="text/javascript">
 	//검색 / page 두가지 경우 모두 Form 전송을 위해 JavaScrpt 이용
-	function fncGetSaleList(currentPage) {
+	function fncGetList(currentPage) {
 		document.getElementById("currentPage").value = currentPage;
 		document.detailForm.submit();
 	}
@@ -76,11 +52,12 @@
 		
 		<td align="right">
 			<select name="searchCondition" class="ct_input_g" style="width:80px">
-				<option value="0" <%= (searchCondition.equals("0") ? "selected" : "")%>>상품번호</option>
-				<option value="1" <%= (searchCondition.equals("1") ? "selected" : "")%>>상품명</option>
-				<option value="2" <%= (searchCondition.equals("2") ? "selected" : "")%>>상품가격</option>
+				<option value="0"  ${ ! empty search.searchCondition && search.searchCondition==0 ? "selected" : "" }>상품번호</option>
+				<option value="1"  ${ ! empty search.searchCondition && search.searchCondition==1 ? "selected" : "" }>상품명</option>
+				<option value="2"  ${ ! empty search.searchCondition && search.searchCondition==2 ? "selected" : "" }>상품가격</option>
 			</select>
-			<input type="text" name="searchKeyword" value="<%= searchKeyword %>" 
+			<input type="text" name="searchKeyword" 
+				   value="${ ! empty search.searchKeyword ? search.searchKeyword : '' }"  
 				   class="ct_input_g" style="width:200px; height:19px" >
 		</td>
 	
@@ -92,7 +69,7 @@
 						<img src="/images/ct_btnbg01.gif" width="17" height="23">
 					</td>
 					<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top:3px;">
-						<a href="javascript:fncGetSaleList('<%= resultPage.getCurrentPage() %>');">검색</a>
+						<a href="javascript:fncGetList('${resultPage.currentPage}');">검색</a>
 					</td>
 					<td width="14" height="23">
 						<img src="/images/ct_btnbg03.gif" width="14" height="23">
@@ -107,7 +84,7 @@
 <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
 	<tr>
 		<td colspan="11" >
-			전체 <%= resultPage.getTotalCount() %> 건수, 현재 <%= resultPage.getCurrentPage() %> 페이지
+			전체 ${resultPage.totalCount} 건수, 현재 ${resultPage.currentPage} 페이지
 		</td>
 	</tr>
 	<tr>
@@ -123,61 +100,55 @@
 	</tr>
 	<tr>
 		<td colspan="11" bgcolor="808285" height="1"></td>
-	</tr>	
-	<% 	
-		for(int i=0; i<list.size(); i++) {
-			Product vo = list.get(i);
-	%>		
-	<tr class="ct_list_pop">
-		<td align="center"><%= i + 1 %></td>
-		<td></td>
-		<td align="left">
-			<a href="/getProduct.do?prodNo=<%=vo.getProdNo()%>&menu=manage"><%=vo.getProdName()%></a>
-		</td>
-		<td></td>
-		<td align="left"><%= vo.getPrice() %></td>
-		<td></td>
-		<td align="left"><%= vo.getRegDate() %></td>
-		<td></td>		
-		<td align="left"> 
-		<% if(vo.getProTranCode() == null){ %>
-			판매중
-		<% } else if(vo.getProTranCode().trim().equals("1")){ %>
-			구매완료 
-			<a href="/updateTranCodeByProd.do?prodNo=<%=vo.getProdNo()%>&tranCode=2&page=<%=resultPage.getCurrentPage()%>">
-			배송하기</a>
-		<% } else if(vo.getProTranCode().trim().equals("2")){ %>
-			배송중
-		<% } else if(vo.getProTranCode().trim().equals("3")){ %>
-			배송완료
-		<% } %>
-		</td>		
 	</tr>
-	<tr>
-		<td colspan="11" bgcolor="D6D7D6" height="1"></td>
-	</tr>
-	<% } %>
+		
+	<c:set var="i" value="0" />
+	<c:forEach var="product" items="${list}">
+		<c:set var="i" value="${ i+1 }" />	
+		
+		<tr class="ct_list_pop">
+			<td align="center">${ i }</td>
+			<td></td>
+			<td align="left">
+				<a href="/getProduct.do?prodNo=${product.prodNo}&menu=manage">${product.prodName}</a>
+			</td>
+			<td></td>
+			<td align="left">${product.price}</td>
+			<td></td>
+			<td align="left">${product.regDate}</td>
+			<td></td>		
+			<td align="left"> 
+			
+			<c:choose>
+				<c:when test="${ product.proTranCode == null }">
+					판매중
+				</c:when>
+				<c:when test="${ product.proTranCode.trim().equals('1') }">
+					구매완료
+					<a href="/updateTranCodeByProd.do?prodNo=${product.prodNo}&tranCode=2&page=${resultPage.currentPage}">
+					배송하기</a>
+				</c:when>
+				<c:when test="${ product.proTranCode.trim().equals('2') }">
+					배송중
+				</c:when>
+				<c:when test="${ product.proTranCode.trim().equals('3') }">
+					배송완료
+				</c:when>
+			</c:choose>
+			
+			</td>		
+		</tr>
+		<tr>
+			<td colspan="11" bgcolor="D6D7D6" height="1"></td>
+		</tr>
+	</c:forEach>
 </table>
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
 	<tr>
 		<td align="center">
 			<input type="hidden" id="currentPage" name="currentPage" value=""/>
-			<% if( resultPage.getCurrentPage() <= resultPage.getPageUnit() ){ %>
-					◀ 이전
-			<% }else{ %>
-					<a href="javascript:fncGetSaleList('<%=resultPage.getCurrentPage()-1%>')">◀ 이전</a>
-			<% } %>
-			
-			<% for(int i=resultPage.getBeginUnitPage();i<= resultPage.getEndUnitPage() ;i++) { %>
-				<a href="javascript:fncGetSaleList('<%=i%>')"><%=i%></a>
-			<% } %>
-			
-			<% if( resultPage.getEndUnitPage() >= resultPage.getMaxPage() ){ %>
-					이후 ▶
-			<% }else{ %>
-					<a href="javascript:fncGetSaleList('<%=resultPage.getEndUnitPage()+1%>')">이후 ▶</a>
-			<% } %>
+			<jsp:include page="../common/pageNavigator.jsp"/>
     	</td>
 	</tr>
 </table>
@@ -188,3 +159,4 @@
 </div>
 </body>
 </html>
+${ System.out.println("<<<<< listSale.jsp 종료 >>>>>") }
