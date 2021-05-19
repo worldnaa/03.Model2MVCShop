@@ -110,7 +110,7 @@ ${ System.out.println("<<<<< listProduct.jsp ½ÃÀÛ >>>>>") }
 					<a href="/getProduct.do?prodNo=${product.prodNo}&menu=search">${product.prodName}</a>
 				</c:when>
 				<c:otherwise>
-					${product.prodNo}
+					${product.prodName}
 				</c:otherwise>
 			</c:choose>
 
