@@ -90,7 +90,7 @@ ${ System.out.println("<<<<< addProduct.jsp 시작 >>>>>") }
 	<tr>
 		<td width="104" class="ct_write">상품이미지</td>
 		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">${product.fileName}
+		<td class="ct_write01"><img src = "/images/uploadFiles/${product.fileName}" height="300" width="300"/>
 			<!-- 테이블 시작 -->
 			<table border="0" cellspacing="0" cellpadding="0">
 				<tr>

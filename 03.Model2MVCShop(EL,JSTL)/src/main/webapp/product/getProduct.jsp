@@ -14,7 +14,7 @@ ${ System.out.println("<<<<< getProduct.jsp 시작 >>>>>") }
 
 <body bgcolor="#ffffff" text="#000000">
 
-<form name="detailForm" method="post">
+<form name="detailForm" method="post" enctype="multipart/form-data">
 
 <table width="100%" height="37" border="0" cellpadding="0"	cellspacing="0">
 	<tr>
@@ -69,8 +69,8 @@ ${ System.out.println("<<<<< getProduct.jsp 시작 >>>>>") }
 			상품이미지 <img 	src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle"/>
 		</td>
 		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">${product.fileName}
-			<img src = "/images/uploadFiles/../../images/empty.GIF"/>
+		<td class="ct_write01">
+			<img src = "/images/uploadFiles/${product.fileName}" height="300" width="300"/>
 		</td>
 	</tr>
 	<tr>
